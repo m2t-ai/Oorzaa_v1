@@ -69,11 +69,16 @@
 
         /* Gradient Text */
         .text-gradient-custom {
-            background-image: linear-gradient(-135deg, var(--saffron-gold), var(--lotus-pink), var(--soft-sky-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: transparent;
+        background-image: linear-gradient(-135deg, #FFB900, #E6A4B4, #A9D5DD);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        }
+        body {
+        background-color: #FFFBF5;
+        color: #6D5B4F;
+        font-family: 'Cormorant Garamond', serif;
         }
 
         /* 4. Navigation Menu */
@@ -363,87 +368,86 @@
 
         /* Wisdom Section Specific Styles */
         #wisdom {
+            position: relative;
+            background-image: url('https://www.transparenttextures.com/patterns/old-paper.png');
             background-color: var(--cream-bg);
-            cursor: pointer;
+        }
+        #wisdom::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: var(--cream-bg);
+            opacity: 0.8;
+            z-index: 0;
         }
         #wisdom .content-wrapper {
-             background-color: transparent;
+            position: relative;
+            z-index: 1;
         }
-        #wisdom h2, #wisdom p, #wisdom-quote {
+        #wisdom h2, #wisdom .font-ui, #wisdom-quote {
             color: var(--temple-brown);
         }
-        #wisdom .quote-overlay {
+        #wisdom .quote-card {
+            background-color: rgba(255, 251, 245, 0.8);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(109, 91, 79, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.1);
             transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
             transform: translateY(10px);
         }
         #wisdom .quote-navigation button {
+            background: linear-gradient(135deg, var(--saffron-gold), var(--lotus-pink), var(--soft-sky-blue));
+            color: var(--temple-brown);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            margin: 0 0.5rem;
+            box-shadow: 0 4px 16px rgba(255, 185, 0, 0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+        }
+        #wisdom .quote-navigation button:hover, #wisdom .quote-navigation button:focus {
+            background: linear-gradient(135deg, var(--lotus-pink), var(--saffron-gold), var(--soft-sky-blue));
+            color: var(--cream-bg);
+            transform: scale(1.08);
+            box-shadow: 0 6px 24px rgba(230, 164, 180, 0.18);
+        }
+        #wisdom .quote-navigation button i {
+            font-size: 1.3rem;
+        }
+        #fireworks-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        #copy-feedback {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             background-color: var(--temple-brown);
             color: var(--cream-bg);
-        }
-        #wisdom .quote-navigation button:hover {
-            background-color: var(--lotus-pink);
-        }
-
-        /* Quote Overlay Styles */
-        .quote-overlay {
-            position: relative;
-            width: 80%;
-            max-width: 600px;
-            text-align: center;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 150px;
-            margin-top: 1rem;
-        }
-
-        #wisdom-quote {
-            font-style: italic;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-            width: 100%;
-            white-space: pre-line;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            z-index: 1002;
+            opacity: 0;
             transition: opacity 0.3s ease-in-out;
-        }
-
-        .quote-navigation {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        .quote-navigation button {
-            border-radius: 50%;
-            width: 40px; height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .quote-navigation button:hover { transform: scale(1.1); }
-        .quote-navigation button:active { transform: scale(0.95); }
-
-        @media (max-width: 768px) {
-            .quote-overlay {
-                width: 90%;
-                font-size: 1rem;
-                padding: 1rem;
-            }
-            .quote-navigation button {
-                width: 35px; height: 35px;
-                font-size: 1rem;
-            }
+            pointer-events: none;
         }
     </style>
 </head>
@@ -473,15 +477,20 @@
 
     <main>
         <section id="hero" class="h-screen min-h-[700px] flex flex-col justify-center items-center relative text-center text-white px-4 overflow-hidden">
-            <video id="hero-video" src="https://videos.pexels.com/video-files/17605929/17605929-uhd_2560_1440_30fps.mp4" loop muted playsinline autoplay preload="metadata" onerror="this.src='https://placehold.co/1920x1080/FFFBF5/6D5B4F?text=Video+Not+Found'"></video>
+            <video id="hero-video" src="https://cdn.pixabay.com/video/2025/07/01/288917_large.mp4" loop muted playsinline autoplay preload="metadata" onerror="this.src='https://placehold.co/1920x1080/FFFBF5/6D5B4F?text=Video+Not+Found'"></video>
             <div class="absolute inset-0 bg-gradient-to-br from-[var(--saffron-gold)]/10 via-[var(--lotus-pink)]/10 to-[var(--soft-sky-blue)]/10 z-10"></div>
             <canvas id="interactive-sphere-canvas"></canvas>
-            <div class="relative z-20 flex flex-col items-center">
-                <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl mb-4 reveal diya-glow text-gradient-custom">Welcome to Oorzaa</h1>
-                <p class="text-xl md:text-2xl mb-8 reveal hero-text-shadow" style="transition-delay: 200ms;">Pause, Breathe, Enter</p>
+            <div id="hero-content" class="sticky top-0 w-full h-screen flex items-center justify-center">
+                <div class="relative z-20 flex flex-col items-center">
+                    <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl text-white text-center">
+                        <span id="welcome-text" class="block">Welcome to</span>
+                        <span id="oorzaa-text" class="block text-gradient-custom">Oorzaa</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 reveal hero-text-shadow" style="transition-delay: 200ms;">Pause, Breathe, Enter</p>
+                </div>
             </div>
         </section>
-
+    
         <div class="section-divider section-divider-bottom"></div>
         <section id="about" class="py-20 md:py-32">
             <div class="container mx-auto px-6 text-center max-w-4xl">
@@ -498,9 +507,11 @@
         </section>
 
         <div class="section-divider section-divider-top" style="background-color: var(--cream-bg);"></div>
-        <section id="paths" class="bg-[var(--cream-bg)]/50">
-             <div class="container mx-auto px-6 pt-20 md:pt-24">
-                <div class="text-center mb-16">
+        <section id="paths" class="bg-[var(--cream-bg)]/50 relative overflow-hidden">
+            <!-- Section Background Video -->
+            <video class="absolute inset-0 w-full h-full object-cover z-0" src="https://cdn.pixabay.com/video/2021/09/08/87787-602074236_large.mp4" autoplay loop muted playsinline preload="metadata" style="opacity:0.5; pointer-events:none;"></video>
+            <div class="container mx-auto px-6 pt-20 md:pt-24">
+                <div class="text-center mb-16 sticky top-0 z-30 bg-[var(--cream-bg)]/80 backdrop-blur-md py-4" id="paths-title-sticky">
                     <h2 class="font-subhead text-4xl md:text-5xl text-[var(--temple-brown)] mb-4 reveal">The Sacred Paths of Oorzaa</h2>
                 </div>
             </div>
@@ -555,21 +566,28 @@
 
         <div class="section-divider section-divider-top" style="background-color: var(--cream-bg);"></div>
         <section id="wisdom" class="py-20 md:py-32">
+            <canvas id="fireworks-canvas"></canvas>
             <div class="container mx-auto px-6 content-wrapper max-w-4xl relative flex flex-col items-center">
                 <h2 class="font-subhead text-4xl md:text-5xl mb-2 reveal">WoW</h2>
                 <p class="font-ui text-lg mb-6 reveal">Wisdom of the week</p>
-                <p id="tap-to-reveal-prompt" class="font-ui text-md reveal text-gray-500">(Tap to reveal)</p>
-                <div class="quote-overlay reveal opacity-0 pointer-events-none">
-                    <p id="wisdom-quote" class="text-center"></p>
-                    <div class="quote-navigation">
-                        <button id="prev-quote" class="magnetic"><i class="fas fa-chevron-left"></i></button>
-                        <button id="next-quote" class="magnetic"><i class="fas fa-chevron-right"></i></button>
+                <button id="reveal-wisdom-btn" class="font-ui diya-flicker bg-gradient-to-br from-[var(--saffron-gold)] to-[var(--lotus-pink)] text-[var(--temple-brown)] font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 interactive-element magnetic">
+                    Tap to Reveal Wisdom
+                </button>
+                <div id="quote-card" class="quote-card w-full max-w-2xl mt-8 opacity-0 pointer-events-none">
+                    <p id="wisdom-quote" class="text-center font-body italic text-lg md:text-xl"></p>
+                    <div class="flex items-center justify-center mt-6">
+                        <div class="quote-navigation flex-grow justify-center">
+                            <button id="prev-quote" class="magnetic"><i class="fas fa-chevron-left"></i></button>
+                            <button id="next-quote" class="magnetic"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <button id="share-quote-btn" class="ml-4 text-gray-500 hover:text-[var(--saffron-gold)] transition-colors" aria-label="Share Quote">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
         <div class="section-divider section-divider-bottom" style="background-color: var(--cream-bg);"></div>
-
 
         <section id="testimonials" class="py-20 md:py-24 bg-[var(--temple-brown)] overflow-hidden">
             <div class="container mx-auto px-6">
@@ -610,18 +628,20 @@
         </section>
 
         <div class="section-divider section-divider-bottom" style="background-color: var(--cream-bg);"></div>
-        <section id="intention-cta" class="py-20 md:py-24">
-            <div class="container mx-auto px-6 text-center max-w-2xl reveal">
-                <h3 class="font-subhead text-3xl text-[var(--temple-brown)] mb-6">Enter mindfully, take a moment to type/speak your intention for today.</h3>
-                <div class="relative w-full max-w-lg mx-auto mb-8">
-                    <input id="intention-input" type="text" placeholder="Tap to type or hold mic to speak..." class="w-full bg-white/80 border border-[var(--line-gray)] rounded-full py-3 pl-6 pr-14 text-[var(--temple-brown)] placeholder-[var(--temple-brown)]/50 focus:ring-0 focus:outline-none focus:border-[var(--lotus-pink)] transition-all glowing-input interactive-element font-ui">
-                    <button id="speak-button" aria-label="Hold to speak intention" class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-transparent text-[var(--temple-brown)] hover:bg-[var(--temple-brown)]/10 rounded-full transition-colors">
-                        <i class="fas fa-microphone"></i>
-                    </button>
-                </div>
-                <button class="font-ui sunbeam-cta diya-flicker bg-gradient-to-br from-[var(--saffron-gold)] to-[var(--lotus-pink)] text-[var(--temple-brown)] font-bold text-lg py-4 px-10 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 interactive-element magnetic">
-                    Enter the Digital Ashram
+        <section id="intention-cta" class="py-20 md:py-24 relative overflow-hidden">
+            <!-- Background Video -->
+            <video class="absolute inset-0 w-full h-full object-cover z-0" src="https://cdn.pixabay.com/video/2022/06/21/121499-724709905_large.mp4" autoplay loop muted playsinline preload="metadata" style="opacity:0.18; pointer-events:none;"></video>
+            <div class="container mx-auto px-6 text-center max-w-2xl reveal relative z-10">
+            <h3 class="font-subhead text-3xl text-[var(--temple-brown)] mb-6">Enter mindfully, take a moment to type/speak your intention for today.</h3>
+            <div class="relative w-full max-w-lg mx-auto mb-8">
+                <input id="intention-input" type="text" placeholder="Tap to type or hold mic to speak..." class="w-full bg-white/80 border border-[var(--line-gray)] rounded-full py-3 pl-6 pr-14 text-[var(--temple-brown)] placeholder-[var(--temple-brown)]/50 focus:ring-0 focus:outline-none focus:border-[var(--lotus-pink)] transition-all glowing-input interactive-element font-ui">
+                <button id="speak-button" aria-label="Hold to speak intention" class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-transparent text-[var(--temple-brown)] hover:bg-[var(--temple-brown)]/10 rounded-full transition-colors">
+                <i class="fas fa-microphone"></i>
                 </button>
+            </div>
+            <button class="font-ui sunbeam-cta diya-flicker bg-gradient-to-br from-[var(--saffron-gold)] to-[var(--lotus-pink)] text-[var(--temple-brown)] font-bold text-lg py-4 px-10 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 interactive-element magnetic">
+                Enter the Digital Ashram
+            </button>
             </div>
         </section>
     </main>
@@ -662,6 +682,53 @@
     </footer>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sticky scale animation with scroll lock until animation completes
+            gsap.registerPlugin(ScrollTrigger);
+
+            const heroSection = document.getElementById('hero');
+            const heroContent = document.getElementById('hero-content');
+            const welcomeText = document.getElementById('welcome-text');
+            const oorzaaText = document.getElementById('oorzaa-text');
+
+            if (heroSection && heroContent && welcomeText && oorzaaText) {
+                // Pin the hero section until the scale animation is complete
+                let tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: heroSection,
+                        start: "top top",
+                        end: "+=100%", // Pin for full viewport scroll
+                        scrub: 1,
+                        pin: true,
+                        anticipatePin: 1,
+                    }
+                });
+                tl.to(welcomeText, { opacity: 0, ease: "power1.in", duration: 0.3 }, 0);
+                tl.to(oorzaaText, { scale: 15, opacity: 0, ease: "power1.in", duration: 1 }, 0);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+        gsap.registerPlugin(ScrollTrigger);
+        const heroSection = document.getElementById('hero');
+        const heroContent = document.getElementById('hero-content');
+        const welcomeText = document.getElementById('welcome-text');
+        const oorzaaText = document.getElementById('oorzaa-text');
+        if(heroSection && heroContent && welcomeText && oorzaaText) {
+            const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: heroSection,
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+                pin: heroContent,
+            }
+            });
+            tl.to(welcomeText, { opacity: 0, ease: "power1.in" }, 0);
+            tl.to(oorzaaText, { scale: 15, opacity: 0, ease: "power1.in" }, 0);
+        }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             // --- Burger Menu ---
             const burgerBtn = document.getElementById('burger-btn');
@@ -799,60 +866,157 @@
                 el.addEventListener('mouseleave', () => { el.style.transform = `translate(0, 0)`; });
             });
 
-            // --- Horizontal Scroll for Paths Section ---
-            const track = document.getElementById("horizontal-scroll-track");
-            const pinContainer = document.getElementById("pin-container");
-            if(track && pinContainer) {
-                gsap.registerPlugin(ScrollTrigger);
-                
-                gsap.to(track, {
-                    x: () => -(track.scrollWidth - document.documentElement.clientWidth),
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: pinContainer,
-                        start: "top top",
-                        end: () => "+=" + (track.scrollWidth - document.documentElement.clientWidth),
-                        scrub: 1,
-                        pin: true,
-                        invalidateOnRefresh: true,
-                        anticipatePin: 1
-                    }
-                });
+            // --- Horizontal Scroll for Path Cards ---
+            // Make horizontal scroll start when #pin-container is in the middle of the viewport
+            if (window.innerWidth > 768) {
+                const pinContainer = document.getElementById('pin-container');
+                const scrollTrack = document.getElementById('horizontal-scroll-track');
+                if (pinContainer && scrollTrack) {
+                    const cards = scrollTrack.children.length;
+                    const cardWidth = scrollTrack.children[0].offsetWidth + 32; // 32px gap
+                    const containerWidth = pinContainer.offsetWidth;
+                    // Calculate scroll so last card centers before unpin
+                    const totalScroll = cardWidth * cards - containerWidth;
+                    const lastCardCenterOffset = (containerWidth - cardWidth) / 2;
+                    const scrollEnd = totalScroll + lastCardCenterOffset;
+                    gsap.to(scrollTrack, {
+                        x: () => `-${totalScroll}`,
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: pinContainer,
+                            start: 'center center',
+                            end: () => `+=${scrollEnd}`,
+                            scrub: 1,
+                            pin: pinContainer,
+                            anticipatePin: 1,
+                        }
+                    });
+                }
             }
 
-            // --- Wisdom Quote "Tap to Reveal" Logic ---
-            const wisdomSection = document.getElementById('wisdom');
-            const quoteOverlay = wisdomSection.querySelector('.quote-overlay');
-            const tapPrompt = document.getElementById('tap-to-reveal-prompt');
+            // --- Wisdom Quote & Fireworks Logic ---
+            const revealWisdomBtn = document.getElementById('reveal-wisdom-btn');
+            const quoteCard = document.getElementById('quote-card');
+            const fireworksCanvas = document.getElementById('fireworks-canvas');
+            const ctx = fireworksCanvas.getContext('2d');
+            let fireworks = [];
 
-            wisdomSection.addEventListener('click', (e) => {
-                if (e.target.closest('.quote-navigation')) return;
+            function setupCanvas() {
+                fireworksCanvas.width = fireworksCanvas.clientWidth;
+                fireworksCanvas.height = fireworksCanvas.clientHeight;
+            }
+            setupCanvas();
+            window.addEventListener('resize', setupCanvas);
 
-                if (quoteOverlay.classList.contains('opacity-0')) {
-                    quoteOverlay.classList.remove('opacity-0', 'pointer-events-none');
-                    quoteOverlay.style.transform = 'translateY(0)';
-                    if(tapPrompt) tapPrompt.style.display = 'none';
+            class Particle {
+                constructor(x, y, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.color = color;
+                    this.size = Math.random() * 2 + 1;
+                    this.alpha = 1;
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 5 + 2;
+                    this.vx = Math.cos(angle) * speed;
+                    this.vy = Math.sin(angle) * speed;
+                    this.gravity = 0.1;
                 }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.vy += this.gravity;
+                    this.alpha -= 0.02;
+                }
+                draw() {
+                    ctx.globalAlpha = this.alpha;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+            }
+
+            function createFirework(x, y) {
+                const particleCount = 100;
+                const colors = ['var(--saffron-gold)', 'var(--lotus-pink)', 'var(--soft-sky-blue)'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                for (let i = 0; i < particleCount; i++) {
+                    fireworks.push(new Particle(x, y, color));
+                }
+            }
+
+            function animateFireworks() {
+                ctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+                for (let i = fireworks.length - 1; i >= 0; i--) {
+                    const p = fireworks[i];
+                    p.update();
+                    p.draw();
+                    if (p.alpha <= 0) {
+                        fireworks.splice(i, 1);
+                    }
+                }
+                requestAnimationFrame(animateFireworks);
+            }
+            animateFireworks();
+
+            revealWisdomBtn.addEventListener('click', (e) => {
+                const rect = e.target.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                createFirework(x, y);
+
+                gsap.to(revealWisdomBtn, { opacity: 0, scale: 0.5, duration: 0.3, onComplete: () => {
+                    revealWisdomBtn.style.display = 'none';
+                }});
+
+                setTimeout(() => {
+                    quoteCard.classList.remove('opacity-0', 'pointer-events-none');
+                    gsap.to(quoteCard, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+                }, 300);
             });
 
             const wisdomQuotes = [
                 `The human body is the temple of God.\nOne who kindles the light of awareness within\ngets true light.\nThe sacred flame of your inner shrine\nis constantly bright.\nThe experience of unity\nis the fulfillment of human endeavors.\nThe mysteries of life are revealed.\n(Rig Veda)`,
                 `You are the infinite; the universe is also infinite!\nFrom infinite the infinite has come out!\nHaving taken infinite out of the infinite, the infinite remains!\nO Almighty! May there be Peace! Peace! Everywhere!\n(Ishawashya Upanishad)`,
                 `O seeker, know the true nature of your soul,\nand identify yourself with it completely.\nO Lord, (may we attain) the everlasting consciousness\nof Supreme Light and Joy.\nMay we resolve to dedicate our life\nto the service of humankind,\nand uplift them to Divinity.\n(Yajur Veda)`,
-                `O Brahma, lead us from the unreal to the real.\nO Brahma, lead us from darkness to light.\nO Brahma, lead us from death to immortality.\nShanti, Shanti, Shanti, Om.\n(Brhadaranyaka Upanishad)`
+                `O Brahma, lead us from the unreal to the real.\nO Brahma, lead us from darkness to light.\nO Brahma, lead us from death to immortality.\nShanti, Shanti, Shanti, Om.\n(Brhadaranyaka Upanishad)`,
+                `Let your faith be bigger than your fear.
+                Let your actions be guided by love, not by doubt.
+                The path may be winding, but every step is sacred.
+                (Modern Reflection)`,
+
+                `When meditation is mastered, the mind is unwavering like the flame of a lamp in a windless place.
+                (Bhagavad Gita)`,
+
+                `The mind acts like an enemy for those who do not control it.
+                But for those who have mastered themselves, the mind is their best friend.
+                (Bhagavad Gita)`,
+
+                `As the rivers flowing east and west merge in the sea and become one with it,
+                forgetting they were ever separate streams,
+                so do all creatures lose their separateness when they merge at last into pure Being.
+                (Chandogya Upanishad)`,
+
+                `You are what your deep, driving desire is.
+                As your desire is, so is your will.
+                As your will is, so is your deed.
+                As your deed is, so is your destiny.
+                (Brihadaranyaka Upanishad)`
             ];
             let currentQuoteIndex = 0;
             const wisdomQuoteElement = document.getElementById('wisdom-quote');
             const prevQuoteBtn = document.getElementById('prev-quote');
             const nextQuoteBtn = document.getElementById('next-quote');
+            const shareQuoteBtn = document.getElementById('share-quote-btn');
+            const copyFeedback = document.getElementById('copy-feedback');
 
             function updateQuote() {
                 if (wisdomQuoteElement) {
-                    wisdomQuoteElement.style.opacity = 0;
-                    setTimeout(() => {
+                    gsap.to(wisdomQuoteElement, {opacity: 0, duration: 0.2, onComplete: () => {
                         wisdomQuoteElement.innerText = wisdomQuotes[currentQuoteIndex];
-                        wisdomQuoteElement.style.opacity = 1;
-                    }, 300);
+                        gsap.to(wisdomQuoteElement, {opacity: 1, duration: 0.2});
+                    }});
                 }
             }
             if (prevQuoteBtn && nextQuoteBtn && wisdomQuoteElement) {
@@ -866,6 +1030,22 @@
                 });
                 updateQuote();
             }
+
+            shareQuoteBtn.addEventListener('click', () => {
+                const urlToCopy = window.location.href;
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = urlToCopy;
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    copyFeedback.style.opacity = '1';
+                    setTimeout(() => { copyFeedback.style.opacity = '0'; }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                }
+                document.body.removeChild(tempInput);
+            });
 
             // --- Video Playback Logic ---
             const heroVideo = document.getElementById('hero-video');
